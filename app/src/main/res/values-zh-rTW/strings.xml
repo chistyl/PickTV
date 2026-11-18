@@ -214,6 +214,11 @@
         <item>硬解</item>
     </string-array>
 
+    <string-array name="select_render">
+        <item>Surface</item>
+        <item>Texture</item>
+    </string-array>
+
     <string-array name="select_size">
         <item>小</item>
         <item>中</item>
