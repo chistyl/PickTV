@@ -111,10 +111,15 @@ dependencies {
     implementation project(':chaquo')
     implementation project(':quickjs')
     implementation project(':hook')
+    implementation project(':forcetech')
+    implementation project(':jianpian')
+    implementation project(':thunder')
+    implementation project(':tvbus')
     implementation libs.appcompat
     implementation libs.lifecycle.service
     implementation libs.media
     implementation libs.bundles.media3
+    implementation libs.nextlib.media3ext
     implementation libs.palette
     implementation libs.recyclerview
     implementation libs.room.runtime
