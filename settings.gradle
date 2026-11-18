@@ -26,4 +26,8 @@ include ':catvod'
 include ':chaquo'
 include ':quickjs'
 include ':hook'
+include ':forcetech'
+include ':jianpian'
+include ':thunder'
+include ':tvbus'
 rootProject.name = "TV"
