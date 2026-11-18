@@ -24,13 +24,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Package complete source archive
-        run: git archive --format=zip --output=PickTV-source-${GITHUB_SHA::7}.zip HEAD
+        run: git archive --format=zip --output=PickTV-source.zip HEAD
 
       - name: Upload source archive
         uses: actions/upload-artifact@v4
         with:
           name: PickTV-R1-source
-          path: PickTV-source-${{ github.sha }}.zip
+          path: PickTV-source.zip
           if-no-files-found: error
           retention-days: 14
 
