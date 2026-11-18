@@ -6,6 +6,11 @@ on:
       - feature/picktv-r1-remove-updater
   workflow_dispatch:
 
+# 新提交觸發建置時，自動取消同分支卡住的舊建置。
+concurrency:
+  group: picktv-apk-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -60,7 +65,7 @@ jobs:
           EOF
 
       - name: Build all debug APK variants
-        run: bash ./gradlew assembleDebug --no-daemon --stacktrace
+        run: timeout 50m bash ./gradlew assembleDebug --no-daemon --stacktrace --console=plain
 
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
