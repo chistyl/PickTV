@@ -23,6 +23,17 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: Package complete source archive
+        run: git archive --format=zip --output=PickTV-source-${GITHUB_SHA::7}.zip HEAD
+
+      - name: Upload source archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: PickTV-R1-source
+          path: PickTV-source-${{ github.sha }}.zip
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Set up Python 3.10 for Chaquopy
         uses: actions/setup-python@v5
         with:
