@@ -1,6 +1,7 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
+        maven { url = uri("$rootDir/third_party/maven") }
         mavenCentral()
         google()
     }
@@ -24,4 +25,5 @@ include ':app'
 include ':catvod'
 include ':chaquo'
 include ':quickjs'
+include ':hook'
 rootProject.name = "TV"
