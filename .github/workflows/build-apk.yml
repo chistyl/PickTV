@@ -1,0 +1,46 @@
+name: Build PickTV APK
+
+on:
+  push:
+    branches:
+      - feature/picktv-r1-remove-updater
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Android APKs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Prepare local Gradle signing properties
+        run: |
+          cat > local.properties <<'EOF'
+          storeFile=ci-unused.jks
+          keyAlias=ci-unused
+          storePassword=ci-unused
+          EOF
+
+      - name: Build all debug APK variants
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: PickTV-R1-debug-APKs
+          path: app/build/outputs/apk/**/debug/*.apk
+          if-no-files-found: error
+          retention-days: 14
