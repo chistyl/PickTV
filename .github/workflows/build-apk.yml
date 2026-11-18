@@ -18,7 +18,7 @@ jobs:
   build:
     name: Build Android APKs
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 55
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -65,7 +65,7 @@ jobs:
           EOF
 
       - name: Build all debug APK variants
-        run: timeout 50m bash ./gradlew assembleDebug --no-daemon --stacktrace --console=plain
+        run: timeout --signal=TERM --kill-after=30s 50m bash ./gradlew assembleDebug --no-daemon --stacktrace --info --console=plain --max-workers=2
 
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
