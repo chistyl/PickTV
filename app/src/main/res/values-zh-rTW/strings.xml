@@ -5,7 +5,7 @@
 
     <!-- Live -->
     <string name="live_pass">密碼</string>
-    <string name="live_refresh">刷新</string>
+    <string name="live_refresh">重新整理</string>
     <string name="live_line">來源 <xliff:g name="name">%s</xliff:g></string>
 
     <!-- Detail -->
@@ -37,12 +37,12 @@
     <string name="play_forward">→</string>
     <string name="play_backward">←</string>
     <string name="play_speed">1.00</string>
-    <string name="play_reset">刷新</string>
+    <string name="play_reset">重新整理</string>
     <string name="play_decode">硬解</string>
     <string name="play_timer">定時</string>
     <string name="play_title">章節</string>
     <string name="play_scale">原始</string>
-    <string name="play_config">配置</string>
+    <string name="play_config">設定</string>
     <string name="play_change">換源</string>
     <string name="play_invert">反轉</string>
     <string name="play_across">跨類</string>
@@ -160,7 +160,7 @@
 
     <!-- Danmaku -->
     <string name="danmaku_load">彈幕載入</string>
-    <string name="danmaku_api">搜尋接口</string>
+    <string name="danmaku_api">搜尋介面</string>
     <string name="danmaku_auto_load">自動搜尋</string>
     <string name="danmaku_spider_first">爬蟲優先</string>
 
@@ -175,12 +175,12 @@
     <string name="dialog_positive">確定</string>
     <string name="dialog_negative">取消</string>
     <string name="dialog_select_title">選擇章節</string>
-    <string name="dialog_config_hint">請輸入配置…</string>
+    <string name="dialog_config_hint">請輸入設定內容…</string>
     <string name="dialog_config_name">請輸入名稱…</string>
     <string name="dialog_config_url">請輸入網址…</string>
 
     <!-- Error -->
-    <string name="error_config_get">配置取得失敗</string>
+    <string name="error_config_get">設定資料取得失敗</string>
     <string name="error_play_next">已經是最後一集了！</string>
     <string name="error_play_prev">已經是第一集了！</string>
     <string name="error_play_parse">播放網址解析失敗</string>
