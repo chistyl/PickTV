@@ -95,6 +95,10 @@ jobs:
           storePassword=ci-unused
           EOF
 
+      - name: Configure Gradle memory
+        run: |
+          printf '\norg.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8\norg.gradle.workers.max=2\nkotlin.daemon.jvmargs=-Xmx2g\n' >> gradle.properties
+
       - name: Build selected APK variant
         run: timeout --signal=TERM --kill-after=30s 120m bash ./gradlew :app:assemble${{ matrix.variant }}Debug --no-daemon --stacktrace --info --console=plain --max-workers=2 --build-cache
 
