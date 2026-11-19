@@ -18,7 +18,7 @@ jobs:
   build:
     name: Build Android APKs
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 130
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -67,6 +67,10 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/third_party"
           cp -a third_party/maven "$GITHUB_WORKSPACE/third_party/maven"
 
+      # 保存 Gradle wrapper、依賴與 transform 快取，降低後續建置時間。
+      - name: Set up Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Prepare local Gradle signing properties
         run: |
           cat > local.properties <<'EOF'
@@ -76,7 +80,7 @@ jobs:
           EOF
 
       - name: Build all debug APK variants
-        run: timeout --signal=TERM --kill-after=30s 45m bash ./gradlew assembleDebug --no-daemon --stacktrace --info --console=plain --max-workers=2
+        run: timeout --signal=TERM --kill-after=30s 120m bash ./gradlew assembleDebug --no-daemon --stacktrace --info --console=plain --max-workers=2 --build-cache
 
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
