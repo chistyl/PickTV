@@ -6,7 +6,6 @@ on:
       - feature/picktv-r1-remove-updater
   workflow_dispatch:
 
-# 新提交會取消同分支停滯中的舊建置。
 concurrency:
   group: picktv-apk-${{ github.ref }}
   cancel-in-progress: true
@@ -16,23 +15,35 @@ permissions:
 
 jobs:
   build:
-    name: Build ${{ matrix.mode }} APKs
+    name: Build ${{ matrix.mode }} ${{ matrix.abi }} APK
     runs-on: ubuntu-latest
     timeout-minutes: 130
     strategy:
       fail-fast: false
       matrix:
-        mode: [leanback, mobile]
+        include:
+          - mode: leanback
+            abi: arm64_v8a
+            variant: LeanbackArm64_v8a
+          - mode: leanback
+            abi: armeabi_v7a
+            variant: LeanbackArmeabi_v7a
+          - mode: mobile
+            abi: arm64_v8a
+            variant: MobileArm64_v8a
+          - mode: mobile
+            abi: armeabi_v7a
+            variant: MobileArmeabi_v7a
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
       - name: Package complete source archive
-        if: matrix.mode == 'leanback'
+        if: matrix.variant == 'LeanbackArm64_v8a'
         run: git archive --format=zip --output=PickTV-source.zip HEAD
 
       - name: Upload source archive
-        if: matrix.mode == 'leanback'
+        if: matrix.variant == 'LeanbackArm64_v8a'
         uses: actions/upload-artifact@v4
         with:
           name: PickTV-R1-source
@@ -84,13 +95,13 @@ jobs:
           storePassword=ci-unused
           EOF
 
-      - name: Build ${{ matrix.mode }} debug APK variants
-        run: timeout --signal=TERM --kill-after=30s 120m bash ./gradlew assemble${{ matrix.mode == 'leanback' && 'Leanback' || 'Mobile' }}Debug --no-daemon --stacktrace --info --console=plain --max-workers=2 --build-cache
+      - name: Build selected APK variant
+        run: timeout --signal=TERM --kill-after=30s 120m bash ./gradlew :app:assemble${{ matrix.variant }}Debug --no-daemon --stacktrace --info --console=plain --max-workers=2 --build-cache
 
-      - name: Upload ${{ matrix.mode }} APK artifacts
+      - name: Upload selected APK
         uses: actions/upload-artifact@v4
         with:
-          name: PickTV-R1-${{ matrix.mode }}-debug-APKs
-          path: app/build/outputs/apk/${{ matrix.mode }}/**/debug/*.apk
+          name: PickTV-R1-${{ matrix.mode }}-${{ matrix.abi }}-debug-APK
+          path: app/build/outputs/apk/${{ matrix.mode }}/${{ matrix.abi }}/debug/*.apk
           if-no-files-found: error
           retention-days: 14
